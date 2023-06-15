@@ -5,6 +5,11 @@ const path = require('path')
 const colors = require('colors')
 const readline = require('readline')
 
+// 退出登录（如果有需要的话打开注释执行：$ node index.js ）
+// ci.logout()
+// // 结束脚本
+// process.exit(0)
+
 // 提示
 console.log('============================== 开始发布 =============================='.bgGreen)
 
@@ -59,12 +64,56 @@ async function run() {
 			input: process.stdin,
 			output: process.stdout
 		})
-		// 输入手机号
-		inputPhone()
+		// 选择登录方式
+		loginMethod()
 	} else {
 		// 开始上传
 		upload()
 	}
+}
+
+// 选择登录方式
+function loginMethod() {
+	input.question('1、手机\n2、邮箱\n请选择登录方式：', async (tag) => {
+		if (tag == 1) {
+			// 输入手机号
+			inputPhone()
+		} else if (tag == 2) {
+			// 输入邮箱
+			inputEmail()
+		} else {
+			// 提示
+			console.log('请输入正确的选项！'.red)
+			// 重新选择
+			loginMethod()
+		}
+	})
+}
+
+// 输入邮箱
+function inputEmail() {
+	input.question('请输入Email：', async (email) => {
+		input.question('请输入密码：', async (pwd) => {
+			try {
+				// 登录
+				await ci.loginByEmail({
+					email: email,
+					password: pwd
+				})
+				// 提示
+				console.log('登录成功，开始发布'.green)
+				// 开始上传
+				upload()
+			} catch (error) {
+				// 验证码有误
+				console.log(error.message.red)
+				// 记录日志
+				setLog(`${error.message}！`)
+				// 再次输入
+				inputEmail()
+			}
+		})
+	})
 }
 
 // 输入手机号
