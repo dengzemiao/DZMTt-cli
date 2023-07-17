@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "快捷发布小程序",
   "scripts": {
-    "dev:mp1": "cross-env NODE_ENV=development APPID=tt8d7afbc71245b0ee01 VERSION=0.0.3 node index.js",
+    "dev:mp1": "cross-env NODE_ENV=development APPID=wxappid VERSION=1.0.0 node index.js",
     "build:mp1": "cross-env NODE_ENV=production APPID=wxappid VERSION=1.0.0 node index.js",
     "dev:mp2": "cross-env NODE_ENV=development APPID=wxappid VERSION=1.0.0 node index.js",
     "build:mp2": "cross-env NODE_ENV=production APPID=wxappid VERSION=1.0.0 node index.js"
